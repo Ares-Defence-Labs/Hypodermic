@@ -74,14 +74,19 @@ namespace Traits
 
 
     template <class TArg>
-    struct ArgumentResolver< FactoryWrapper< TArg > >
+struct ArgumentResolver< FactoryWrapper< TArg > >
     {
         typedef FactoryWrapper< TArg > Type;
 
         template <class TRegistration, class TResolutionContext>
         static Type resolve(const TRegistration& registration, TResolutionContext& resolutionContext)
         {
-            return Type(ArgumentResolver< std::function< std::shared_ptr< TArg >() > >::template resolve(registration, resolutionContext));
+            return Type(
+                ArgumentResolver<std::function<std::shared_ptr<TArg>()>>::resolve(
+                    registration,
+                    resolutionContext
+                )
+            );
         }
     };
 
